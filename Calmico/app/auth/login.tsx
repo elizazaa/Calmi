@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { Link } from "expo-router"
+import { useRouter } from "expo-router"
 import { Formik } from "formik"
 import * as Yup from "yup";
 
@@ -17,13 +17,19 @@ const validationSchema = Yup.object().shape({
 })
 
 const Login = () => {
+    //Router
+    const router = useRouter();
     return (
     <View style={styles.container}>
         <Text style={styles.title}>Log in</Text>
         {/*Formik configuration*/}
         <Formik
-        initialValues={{ email: "", password: ""}}
-        onSubmit={(values) => console.log(values)}
+        initialValues={{ email: "winter@aespa.com", password: "010101"}}
+        onSubmit={(values) => {
+            console.log(values)
+            router.push("/(tabs)")
+            }
+        }
         validationSchema={validationSchema}
         >
     {({
