@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { Link } from "expo-router"
+import { useRouter, Link } from "expo-router"
 
 const Home = () => {
+    const router = useRouter()
     return (
     <View style={styles.container}>
     <View style={styles.overlay}>
