@@ -32,6 +32,10 @@ const Login = () => {
         }
     };
 
+    const handleSubmitBack = () => {
+        router.push("/")
+    }
+
     return (
     <View style={styles.container}>
         <Text style={styles.title}>Log in</Text>
@@ -79,6 +83,12 @@ const Login = () => {
         <TouchableOpacity onPress={handleSubmit}>
             <View style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
+            </View>
+        </TouchableOpacity>
+        {/*Back to home*/}
+        <TouchableOpacity onPress={handleSubmitBack}>
+            <View style={styles.backButton}>
+                <Text style={styles.backButtonText}>Back to Home Page</Text>
             </View>
         </TouchableOpacity>
         </View>
@@ -131,5 +141,16 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  backButton: {
+      height: 50,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 8,
+      marginTop: 1,
+  },
+  backButtonText: {
+    color: "grey",
+    fontSize: 18,
   },
 });

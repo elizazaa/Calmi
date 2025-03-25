@@ -25,6 +25,16 @@ export default function RootLayout() {
                 )
             }}
         />
+        <Tabs.Screen
+            name="profile"
+            options={{
+                headerShown: false,
+                title: "Profile",
+                tabBarIcon:({color})=>(
+                    <MaterialCommunityIcons name="account" size={24} color={color}/>
+                )
+            }}
+        />
     </Tabs>
     )
 }

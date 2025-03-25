@@ -40,6 +40,11 @@ const Register = () => {
             console.error("Registration error:", error);
         }
     }
+
+    const handleSubmitBack = () => {
+        router.push("/")
+    }
+
     return (
     <View style={styles.container}>
         <Text style={styles.title}>Register</Text>
@@ -102,6 +107,12 @@ const Register = () => {
                 <Text style={styles.buttonText}>Register</Text>
             </View>
         </TouchableOpacity>
+        {/*Back to home*/}
+        <TouchableOpacity onPress={handleSubmitBack}>
+            <View style={styles.backButton}>
+                <Text style={styles.backButtonText}>Back to Home Page</Text>
+            </View>
+        </TouchableOpacity>
         </View>
         )}
         </Formik>
@@ -153,4 +164,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+    backButton: {
+        height: 50,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 8,
+        marginTop: 1,
+    },
+    backButtonText: {
+      color: "grey",
+      fontSize: 18,
+    },
 });
