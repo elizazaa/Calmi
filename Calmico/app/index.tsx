@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { useRouter, Link } from "expo-router"
+import { UserProvider } from "./context/UserContext"
 
 const Home = () => {
     const router = useRouter()
     return (
+    <UserProvider>
     <View style={styles.container}>
     <View style={styles.overlay}>
         <Text style={styles.mainText}>Calmi</Text>
@@ -25,6 +27,7 @@ const Home = () => {
         </TouchableOpacity>
     </View>
     </View>
+    </UserProvider>
     );
 };
 
