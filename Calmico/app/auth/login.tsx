@@ -1,4 +1,5 @@
 import {
+  Alert,
   View,
   StyleSheet,
   TextInput,
@@ -9,6 +10,8 @@ import React from "react";
 import { useRouter } from "expo-router"
 import { Formik } from "formik"
 import * as Yup from "yup";
+import { auth } from '../../FirebaseConfig';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 
 //Schema
 const validationSchema = Yup.object().shape({
@@ -19,17 +22,23 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
     //Router
     const router = useRouter();
+
+    const handleLogin = async (email, password) => {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            router.push("/(tabs)"); // Navigate to the next screen after successful login
+        } catch (error) {
+            Alert.alert("Login Error", error.message);
+        }
+    };
+
     return (
     <View style={styles.container}>
         <Text style={styles.title}>Log in</Text>
         {/*Formik configuration*/}
         <Formik
-        initialValues={{ email: "winter@aespa.com", password: "010101"}}
-        onSubmit={(values) => {
-            console.log(values)
-            router.push("/(tabs)")
-            }
-        }
+        initialValues={{ email: "winter@gmail.com", password: "010101"}}
+        onSubmit={(values) => handleLogin(values.email, values.password)}
         validationSchema={validationSchema}
         >
     {({

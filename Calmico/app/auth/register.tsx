@@ -1,4 +1,5 @@
 import {
+  Alert,
   View,
   StyleSheet,
   TextInput,
@@ -6,9 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { Link } from "expo-router"
+import { Link, useRouter } from "expo-router"
 import { Formik } from "formik"
 import * as Yup from "yup";
+import { auth } from '../../FirebaseConfig'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 
 //Schema
 const validationSchema = Yup.object().shape({
@@ -20,13 +23,30 @@ const validationSchema = Yup.object().shape({
 });
 
 const Register = () => {
+
+    const router = useRouter();
+
+    const handleRegister = async (values) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                values.email,
+                values.password
+            );
+            console.log("User created:", userCredential.user);
+            Alert.alert("Success", "Account created successfully!");
+            router.push("/(tabs)"); // Navigate to the home screen or login page
+        } catch(error) {
+            console.error("Registration error:", error);
+        }
+    }
     return (
     <View style={styles.container}>
         <Text style={styles.title}>Register</Text>
         {/*Formik configuration*/}
         <Formik
         initialValues={{ email: "", password: "", confirmPassword: ""}}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleRegister}
         validationSchema={validationSchema}
         >
     {({
