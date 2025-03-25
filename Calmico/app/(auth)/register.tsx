@@ -12,9 +12,13 @@ import { Formik } from "formik"
 import * as Yup from "yup";
 import { auth } from '../../FirebaseConfig'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc, getFirestore } from 'firebase/firestore';
+
+const db = getFirestore();
 
 //Schema
 const validationSchema = Yup.object().shape({
+  username: Yup.string().min(3, "Username must be at least 3 characters").max(20, "Username is too long~").required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().min(6, "Too Short!").required("Required"),
   confirmPassword: Yup.string()
@@ -33,11 +37,18 @@ const Register = () => {
                 values.email,
                 values.password
             );
+
+            await setDoc(doc(db, 'users', userCredential.user.uid), {
+                username: values.username,
+                email: values.email,
+            });
+
             console.log("User created:", userCredential.user);
             Alert.alert("Success", "Account created successfully!");
             router.push("/(tabs)"); // Navigate to the home screen or login page
         } catch(error) {
             console.error("Registration error:", error);
+            Alert.alert("Error", error.message);
         }
     }
 
@@ -50,7 +61,7 @@ const Register = () => {
         <Text style={styles.title}>Register</Text>
         {/*Formik configuration*/}
         <Formik
-        initialValues={{ email: "", password: "", confirmPassword: ""}}
+        initialValues={{ username: "", email: "", password: "", confirmPassword: ""}}
         onSubmit={handleRegister}
         validationSchema={validationSchema}
         >
@@ -62,6 +73,19 @@ const Register = () => {
         errors,
         touched,}) =>(
         <View style={styles.form}>
+        {/* Username field */}
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          onChangeText={handleChange("username")}
+          onBlur={handleBlur("username")}
+          value={values.username}
+          autoCapitalize="none"
+        />
+        {/* Error for username */}
+        {errors.username && touched.username ? (
+          <Text style={styles.errorText}>{errors.username}</Text>
+        ) : null}
         {/*Email field*/}
             <TextInput
             style={styles.input}
