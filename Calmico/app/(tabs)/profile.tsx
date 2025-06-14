@@ -6,7 +6,7 @@ import React, { useContext } from "react";
 const Profile = () => {
     const router = useRouter();
 
-    const { username } = useContext(UserContext);
+    //const { username } = useContext(UserContext);
 
     const handleSubmit = () => { router.push("/(auth)/login") };
 
